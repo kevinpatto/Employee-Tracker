@@ -13,8 +13,8 @@ VALUES ('Researcher', 25000, 1),
        ('Cthontic Gods', 600000, 3),
        ('Ascended Beings', 400000, 3),
        ('Cryptids', 2500, 3),
-       ('Jeffreys That Find Stuff', 40000, 4),
-       ('Jeffreys That Make Stuff', 45600, 4)
+       ('Finders', 40000, 4),
+       ('Makers', 45600, 4)
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES ('Bob', 'Bobert', 1, 3),
