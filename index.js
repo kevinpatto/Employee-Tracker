@@ -4,9 +4,9 @@ const mysql = require('mysql2');
 const db = mysql.createConnection(
     {
         host: 'localhost',
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME
+        user: 'root',
+        password: 'rooters',
+        database: 'employees_db'
     }
 );
 
@@ -33,35 +33,42 @@ const init = () => {
             },
         ])
         .then((response) => {
-            switch (response) {
-                case 'View All Departments':
-                    viewDepartments();
-                    break;
-                case 'View All Roles':
-                    viewRoles();
-                    break;
-                case 'View All Employees':
-                    viewEmployees();
-                    break;
-                case 'Add a Role':
-                    addRole();
-                    break;
-                case 'Add an Employee':
-                    addEmployee();
-                    break;
-                case 'Update an Employee Role':
-                    updateEmployeeRole();
-                    break;
-            }
-        })
-        .then(() => {
-            init();
+            // console.log(response.choice);
+            return viewDepartments()
+                .then(() => {
+                    init();
+                })
+                .catch((err) => console.log(err));
+            // switch (response.choice) {
+            //     case 'View All Departments':
+            //         viewDepartments();
+            //         break;
+            //     case 'View All Roles':
+            //         viewRoles();
+            //         break;
+            //     case 'View All Employees':
+            //         viewEmployees();
+            //         break;
+            //     case 'Add a Role':
+            //         addRole();
+            //         break;
+            //     case 'Add an Employee':
+            //         addEmployee();
+            //         break;
+            //     case 'Update an Employee Role':
+            //         updateEmployeeRole();
+            //         break;
+            // }
         })
         .catch((err) => console.log(err));
 }
 
 const viewDepartments = () => {
-
+    db.query('SELECT * FROM departments', function (err, results) {
+        console.log(results);
+    });
+    // .promise()
+    // .then(() => renderTable(results, ['id', 'name']));
 }
 
 const viewRoles = () => {
@@ -84,8 +91,54 @@ const updateEmployeeRole = () => {
 
 }
 
-const renderTable = (col, row, data) => {
+const renderTable = (data, col) => {
+    let columns = '';
+    let columnBreak = '';
 
+    for (let i = 0; i < col.length; i++) {
+        switch (col[i]) {
+            case 'name':
+                columns.concat(' name         ')
+                columnBreak.concat(' ____________ ');
+                break;
+            case 'title':
+                columns.concat(' title        ')
+                columnBreak.concat(' ____________ ');
+                break;
+            case 'first_name':
+                columns.concat(' first name       ')
+                columnBreak.concat(' ________________ ');
+                break;
+            case 'last_name':
+                columns.concat(' last name        ')
+                columnBreak.concat(' ________________ ');
+                break;
+            case 'id':
+                columns.concat(' id ');
+                columnBreak.concat(' __ ');
+                break;
+            case 'department id':
+                columns.concat(' department id ');
+                columnBreak.concat(' _____________ ');
+                break;
+            case 'role id':
+                columns.concat(' role id ');
+                columnBreak.concat(' _______ ');
+                break;
+            case 'department':
+                columns.concat(' department   ');
+                columnBreak.concat(' ____________ ');
+                break;
+            case 'salary':
+                columns.concat(' salary  ');
+                columnBreak.concat(' _______ ');
+                break;
+        }
+    }
+
+    for (let i = 0; i < data.length; i++) {
+
+    }
 }
 
 init();
